@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <title>Login</title>
+    <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
+    <script>
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyCO68g8pET5fA2lFms0rviyfILqPfI6G-E",
+                authDomain: "azure-game.firebaseapp.com",
+                databaseURL: "https://azure-game.firebaseio.com",
+                projectId: "azure-game",
+                storageBucket: "",
+                messagingSenderId: "321677551372"
+            };
+            firebase.initializeApp(config);
+            var AzDatabase = firebase.database();
+    </script>
+   <script type="text/javascript">
+        var Target = "楊宗哲"
+        var UpdateContent = {};
+        UpdateContent[Target] = 48888;
+        /*function Update(){
+            AzDatabase.ref("/").child("Score").update(UpdateContent);
+        }*/
+        function Update(){
+            AzDatabase.ref("/Score").once("value").then(function(snapshot) {
+                var c = snapshot.child("陳琮傑").val();
+                console.log(c);
+            });
+        }
+
+    </script>
+</head>
+<body background="./assets/sprites/LevelSelectBackground0.png">
+    <p id="NewStringBox"><font face="monospace" size="4" color="white">請輸入您的中文姓名</font></p>
+    <input type="text" id="StringTextBox">
+    <input type="button" value="Update" onclick="Update()">
+</body>
+</html>

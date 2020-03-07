@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <title>Azurewave Rush</title>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.01, minimum-scale=1.0, user-scalable=no,width=device-width, minimal-ui">
+    <link rel="stylesheet" href="./Rival_Rush_files/GobletGames.css" type="text/css">
+    <!--If JQuery url is put inside famobi_gameJS the code in body tag wil error as JQuery is not defined.-->
+    <script src="./Rival_Rush_files/gameapi.js"></script>
+	<script src="./Rival_Rush_files/4638e320-4444-4514-81c4-d80a8c662371"></script>
+	<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+    <script>
+		var game = null;
+
+		window.famobi_gameID = "Azure-rush"; // the actual GAMEID is added to the final version by Famobi
+		window.famobi_gameJS = ['js/all.js',
+			function () {
+				game = new Dlib.Dlib();
+				game.state.add("raceBoot", Race.RaceBoot);
+				game.state.add("menu", Race.Menu);
+				game.state.add("levelSelect", Race.LevelSelect);
+				game.state.add("game", Race.Game);
+				//zorg er voor dat je het spel boot
+				game.state.start("Boot");
+			}
+		];
+    </script>
+	<script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="./Rival_Rush_files/play.css">	
+	<style type="text/css"></style>
+</head>
+<body>
+	
+	<div id="fg-root" class="fg-root">
+	<div id="fg-overlay" style="">
+	<header id="fg-header">
+		<div class="fg-clip" id="fg-clip" style="cursor: pointer;">
+			<div class="fg-clip-btn">
+				
+			</div>
+		</div>
+	</header>
+	<header>
+	</header>
+	</div>
+	</div>
+	<script>
+		// Initialize Firebase
+		var config = {
+			apiKey: "AIzaSyCO68g8pET5fA2lFms0rviyfILqPfI6G-E",
+			authDomain: "azure-game.firebaseapp.com",
+			databaseURL: "https://azure-game.firebaseio.com",
+			projectId: "azure-game",
+			storageBucket: "",
+			messagingSenderId: "321677551372"
+		};
+		firebase.initializeApp(config);
+		var AzDatabase = firebase.database();
+		var ReadRun = 0;
+		var GameLogin = 1;
+		var PlayerName = "My friend";
+		var bScoreUpload = 0;
+		AzDatabase.ref('/Server/admin').once('value').then(function(snapshot) {
+            ReadRun = snapshot.val().EnableRun
+        });		
+	</script>	
+	<script>
+		function popupCallback(str){
+			AzDatabase.ref("/Score").once("value").then(function(snapshot) {
+                var bCheckUser = snapshot.child(str).exists();
+                if (bCheckUser) {
+					GameLogin = 1;
+					PlayerName = str;
+					alert("welcome " + str + " !");
+				} else {
+					alert("User name error");
+				}
+            });		
+		}
+		function openPopup(){
+			window.open('pop.html', "_system")
+		}
+	</script>
+	<div id="DevoleProject">
+	</div>
+	
+	<script type="text/javascript">
+		$(function () {
+			$(document).on('click', 'canvas', function () {
+				$('body').focus();
+			});
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>極速海華 風雲榜</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>	
+		<script>
+				// Initialize Firebase
+				var config = {
+					apiKey: "AIzaSyCO68g8pET5fA2lFms0rviyfILqPfI6G-E",
+					authDomain: "azure-game.firebaseapp.com",
+					databaseURL: "https://azure-game.firebaseio.com",
+					projectId: "azure-game",
+					storageBucket: "",
+					messagingSenderId: "321677551372"
+				};
+				firebase.initializeApp(config);
+				var AzDatabase = firebase.database();
+		</script>		
+	</head>
+	<body class="loading">
+		<div id="wrapper">
+			<div id="bg"></div>
+			<div id="overlay"></div>
+			<div id="main">
+
+				<!-- Header -->
+					<header id="header">
+						<h2><p id="CountDown"></p></h2>
+						<h1>Top 10</h1>
+						<p id="NewStringBox"></p>
+						<nav>
+						</nav>
+					</header>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<span class="copyright">&copy; Untitled. Design: Devole Studio</a>.</span>
+					</footer>
+
+			</div>
+		</div>
+		<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+		<script>
+			window.onload = function() { document.body.className = ''; }
+			window.ontouchmove = function() { return false; }
+			window.onorientationchange = function() { document.body.scrollTop = 0; }
+		</script>
+		<script>
+			var RankString;
+			var RankCount = 10;
+			var RankWalker;
+			var scoresRef = AzDatabase.ref("Score");
+				scoresRef.orderByValue().limitToLast(RankCount).on("value", function(snapshot) {
+					RankString = "";
+					RankWalker = RankCount;
+					snapshot.forEach(function(data) {
+						if (RankWalker == 1) {
+							RankString = "<h3><span style=\"font-size:150%;\">No." + RankWalker + "&nbsp&nbsp&nbsp" + data.key + "&nbsp&nbsp&nbsp得分:" + data.val() + "</span></h3>" + RankString;
+						} else {
+							RankString = "<p>No." + RankWalker + "&nbsp&nbsp&nbsp" + data.key + "&nbsp&nbsp&nbsp得分:" + data.val() + "</p>" + RankString;
+						}
+						RankWalker = RankWalker - 1;
+					});
+					ChangeString();
+				});
+		</script>	
+		<script>
+			function ChangeString(){
+				var NewStringValue=RankString;
+				document.getElementById("NewStringBox").innerHTML=NewStringValue;
+			}
+		</script>
+		<script>
+			var time = 123000;//倒數秒數
+			!function MyCounter(){
+				if(time<=0){
+					//倒數完成
+					var NewStringValue= "Time is up";
+					document.getElementById("CountDown").innerHTML=NewStringValue;
+				} else{
+					console.log((time/1000) + " sec...");
+					var NewStringValue= Math.floor(time/1000/60) + " 分" + (time/1000%60) + " 秒";
+					document.getElementById("CountDown").innerHTML=NewStringValue;
+					setTimeout(MyCounter, 1000);
+				}
+				time-=1000; 
+			}();
+		</script>		
+	</body>
+</html>
