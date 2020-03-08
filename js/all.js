@@ -19393,7 +19393,7 @@ var Race;
         }, i.prototype.shutdown = function() {
             e.prototype.shutdown.call(this)
         }, i.prototype.preload = function() {
-            e.prototype.preload.call(this), this.game.load.json("LevelData", "json/LevelData.json"), this.game.load.json("AudioTags", "json/AudioTags.json"), this.game.load.crossOrigin = !0, this.game.load.image("more_games0", "assets/sheets/az_login.png")
+            e.prototype.preload.call(this), this.game.load.json("LevelData", "json/LevelData.json"), this.game.load.json("AudioTags", "json/AudioTags.json"), this.game.load.crossOrigin = !0, this.game.load.image("more_games0", "assets/sheets/Rank.png")
         }, i.prototype.create = function() {
             e.prototype.create.call(this), Dlib.Dcore.mInstance.createDobject(new t.RaceProfile);
             var i = Dlib.Dcore.mInstance.findObjectByName("RaceProfile");
