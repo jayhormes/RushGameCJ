@@ -18744,23 +18744,51 @@ var Race;
                     bShowScore = 1;
                 }
             }, s.prototype.UploadVictoryScore = function(level) {
-                var UpdateContent = {};
+                var LevelScoreCounter = 0;
+                var ScoreFromDB;
                 var Score;
-                var CheckValue = 0;
-                //AzDatabase.ref("/Score").once("value").then(function(snapshot) {
-                //    CheckValue = snapshot.child(str).val();
-                //});
-                console.log("CheckValue =" + CheckValue);
-                if (CheckValue == 0) {
-                    Score = Math.round(this.showCarDistanceNow());
-                    level = this.showLevelNow();
-                    console.log("level =" + level);
-                    dist = this.showBeginDistanceToBoss();
-                    console.log("dist =" + dist);
-                    UpdateContent[str] = Score;
-                    //AzDatabase.ref("/").child("Score").update(UpdateContent); 
-                    bScoreUpload = 1; 
-                    alert("您的分數: " + Score);                 
+                var TimeStampFromDB;
+                var TimeStamp;
+                for(var index in LevelScore) {
+                    if (index <= level) {
+                        LevelScoreCounter += LevelScore[index];
+                    } else {
+                        break;
+                    }
+                }
+
+                Score = LevelScoreCounter;
+                TimeStamp = Math.floor(Date.now() / 1000);
+
+                // Transaction
+                var sfDocRef = WeddingDatabase.collection("cj_customers").doc(LineUserId);
+                WeddingDatabase.runTransaction(function(transaction) {
+                    return transaction.get(sfDocRef).then(function(sfDoc) {
+                        if (!sfDoc.exists) {
+                            throw "Document does not exist!";
+                        }
+                        ScoreFromDB = sfDoc.data().score;
+                        TimeStampFromDB = sfDoc.data().score_timestamp;
+
+                        if (Score > ScoreFromDB && TimeStamp > TimeStampFromDB) {
+                            transaction.update(sfDocRef, { 'score': Score, 'score_timestamp': TimeStamp});
+                            return Score;
+                        } else {
+                            return Promise.reject("No update");
+                        }
+                    });
+                }).then(function(Score) {
+                    console.log("Update to ", Score);
+                    bScoreUpload = 1;
+                }).catch(function(err) {
+                    // This will be an "population is too big" error.
+                    console.error(err);
+                    bScoreUpload = 1;
+                });
+
+                if (bShowScore == 0) {
+                    alert("您的分數: " + Score);  
+                    bShowScore = 1;
                 }
             }, s.prototype.removeHearthNumber = function(t) {
                 var e = this.getHearths();
