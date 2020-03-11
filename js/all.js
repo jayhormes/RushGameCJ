@@ -18702,9 +18702,9 @@ var Race;
                 var UpdateContent = {};
                 var Score;
                 var CheckValue = 0;
-                AzDatabase.ref("/Score").once("value").then(function(snapshot) {
-                    CheckValue = snapshot.child(str).val();
-                });
+                //AzDatabase.ref("/Score").once("value").then(function(snapshot) {
+                //    CheckValue = snapshot.child(str).val();
+                //});
                 console.log("CheckValue =" + CheckValue);
                 if (CheckValue == 0) {
                     Score = Math.round(this.showCarDistanceNow());
@@ -18713,7 +18713,7 @@ var Race;
                     dist = this.showBeginDistanceToBoss();
                     console.log("dist =" + dist);
                     UpdateContent[str] = Score;
-                    AzDatabase.ref("/").child("Score").update(UpdateContent); 
+                    //AzDatabase.ref("/").child("Score").update(UpdateContent); 
                     bScoreUpload = 1; 
                     alert("您的分數: " + Score);                 
                 }
