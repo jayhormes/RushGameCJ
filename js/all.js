@@ -18739,7 +18739,6 @@ var Race;
                     }
                 }).catch(function(err) {
                     // This will be an "population is too big" error.
-                    console.error(err);
                     bScoreUpload = 1;
                 });
             }, s.prototype.UploadVictoryScore = function(level) {
@@ -18779,16 +18778,14 @@ var Race;
                 }).then(function(Score) {
                     console.log("Update to ", Score);
                     bScoreUpload = 1;
+                    if (bShowScore == 0) {
+                        alert("個人新紀錄！您的分數: " + Score);  
+                        bShowScore = 1;
+                    }
                 }).catch(function(err) {
                     // This will be an "population is too big" error.
-                    console.error(err);
                     bScoreUpload = 1;
                 });
-
-                if (bShowScore == 0) {
-                    alert("您的分數: " + Score);  
-                    bShowScore = 1;
-                }
             }, s.prototype.removeHearthNumber = function(t) {
                 var e = this.getHearths();
                 Helper.exists(e) && e[t - 1].playAnimation(!1)
