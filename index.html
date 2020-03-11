@@ -63,24 +63,29 @@
 	</script>	
 	<script>
 		var url = location.href;
-		var LineUserId = "LineUserId";
+		var LineUserId = "";
+		var EnableDatabase = 0;
 		if(url.indexOf('?')!=-1) {
 			var UrlContent = url.split('?');
 			LineUserId = UrlContent[1];
 			console.log('id = '+UrlContent[1]);
+			EnableDatabase = 1;
 		}
 
-		var docRef = WeddingDatabase.collection("cj_customers").doc(LineUserId);
-		docRef.get().then(function(doc) {
-			if (doc.exists) {
-				console.log("Document data:", doc.data().name);
-				alert("Welcome " + doc.data().name + " !");
-			} else {
-				console.log("No such document!");
-			}
-		}).catch(function(error) {
-			console.log("Error getting document:", error);
-		});		
+		if (EnableDatabase == 1) {
+			var docRef = WeddingDatabase.collection("cj_customers").doc(LineUserId);
+			docRef.get().then(function(doc) {
+				if (doc.exists) {
+					console.log("Document data:", doc.data().name);
+					alert("Welcome " + doc.data().name + " !");
+				} else {
+					console.log("No such document!");
+				}
+			}).catch(function(error) {
+				console.log("Error getting document:", error);
+			});	
+		}
+	
 	</script>
 	<script>
 		var LevelScore = {
