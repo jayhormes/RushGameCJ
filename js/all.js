@@ -18682,23 +18682,69 @@ var Race;
                         break;
                     case e.GAMEOVER:
                         this._mScrollingBackground.scroll(0), this.reverseAI(2 * this._mLevelJson.CarSpeed);
-                        console.log("bScoreUpload =" + bScoreUpload + "this._mLevelJson.Level =" + this._mLevelJson.Level);
-                        console.log("this._mBeginDistanceToBoss =" + this._mBeginDistanceToBoss);
-                        console.log("this._mPlayer.distanceTo(this._mSpawner.mBoss.mTransform) =" + this._mPlayer.distanceTo(this._mSpawner.mBoss.mTransform));
-                        console.log("this._mDistanceToBoss =" + this._mDistanceToBoss);
-                        if (bScoreUpload == 0 && this._mLevelJson.Level == 0) {
-                            this.UploadScore(PlayerName);
-                        }
+                        this.UploadGameOverScore(this._mLevelJson.Level);
                         break;
                     case e.VICTORY:
                         this._mScrollingBackground.scroll(1500), this.driveAI(this._mLevelJson.CarSpeed), this._mPlayer.driveVictory(800) === !1 && (this._mState = e.PAUSE, this.mVictory.dispatch());
-                        if (bScoreUpload == 0 && this._mLevelJson.Level == 0) {
-                            this.UploadScore(PlayerName);
-                        }
+                        this.UploadVictoryScore(this._mLevelJson.Level);
                         break;
                     case e.PAUSE:
                 }
-            }, s.prototype.UploadScore = function(str) {
+            }, s.prototype.UploadGameOverScore = function(level) {
+                var LevelScoreCounter = 0;
+                var ScoreFromDB;
+                var Score;
+                var TimeStampFromDB;
+                var TimeStamp;
+                for(var index in LevelScore) {
+                    if (index < level) {
+                        LevelScoreCounter += LevelScore[index];
+                    } else {
+                        break;
+                    }
+                }
+                Score = Math.round(this.showCarDistanceNow()) + LevelScoreCounter;
+                TimeStamp = Math.floor(Date.now() / 1000);
+
+                // Check Value
+                var doc_ref = WeddingDatabase.collection("cj_customers").doc(LineUserId);
+                doc_ref.get().then(function(doc) {
+                    if (doc.exists) {
+                        ScoreFromDB = doc.data().score;
+                        TimeStampFromDB = doc.data().score_timestamp;
+                        console.log("ScoreFromDB:", ScoreFromDB);
+                        console.log("TimeStampFromDB:", TimeStampFromDB);
+                        console.log("Score:", Score);
+                        console.log("TimeStamp:", TimeStamp);
+                    } else {
+                        console.log("No such document!");
+                    }
+                }).catch(function(error) {
+                    console.log("Error getting document:", error);
+                });
+
+                if (TimeStamp > TimeStampFromDB && Score > ScoreFromDB) {
+                    var doc_ref = WeddingDatabase.collection("cj_customers").doc(LineUserId);
+                    return doc_ref.update({
+                        score: Score,
+                        score_timestamp: TimeStamp
+                    })
+                    .then(function() {
+                        console.log("Document successfully updated!");
+                    })
+                    .catch(function(error) {
+                        // The document probably doesn't exist.
+                        console.error("Error updating document: ", error);
+                    });
+                }
+
+                // Show score message once
+                //var ShowScore = 1;
+                //if (ShowScore == 1) {
+                //    alert("您的分數: " + Score);  
+                //    ShowScore = 0;
+                //}
+            }, s.prototype.UploadVictoryScore = function(level) {
                 var UpdateContent = {};
                 var Score;
                 var CheckValue = 0;
