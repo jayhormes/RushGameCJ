@@ -18683,6 +18683,9 @@ var Race;
                     case e.GAMEOVER:
                         this._mScrollingBackground.scroll(0), this.reverseAI(2 * this._mLevelJson.CarSpeed);
                         console.log("bScoreUpload =" + bScoreUpload + "this._mLevelJson.Level =" + this._mLevelJson.Level);
+                        console.log("this._mBeginDistanceToBoss =" + this._mBeginDistanceToBoss);
+                        console.log("this._mPlayer.distanceTo(this._mSpawner.mBoss.mTransform) =" + this._mPlayer.distanceTo(this._mSpawner.mBoss.mTransform));
+                        console.log("this._mDistanceToBoss =" + this._mDistanceToBoss);
                         if (bScoreUpload == 0 && this._mLevelJson.Level == 0) {
                             this.UploadScore(PlayerName);
                         }
@@ -18705,6 +18708,10 @@ var Race;
                 console.log("CheckValue =" + CheckValue);
                 if (CheckValue == 0) {
                     Score = Math.round(this.showCarDistanceNow());
+                    level = this.showLevelNow();
+                    console.log("level =" + level);
+                    dist = this.showBeginDistanceToBoss();
+                    console.log("dist =" + dist);
                     UpdateContent[str] = Score;
                     AzDatabase.ref("/").child("Score").update(UpdateContent); 
                     bScoreUpload = 1; 
@@ -18737,6 +18744,10 @@ var Race;
                 } else this.hideDistanceIcon()
             }, s.prototype.hideDistanceIcon = function() {
                 Helper.exists(this._mDistanceIcon) && (this._mDistanceIcon.mTransform.mPosition = new Phaser.Point(1e4, 1e4))
+            }, s.prototype.showLevelNow = function() {
+                return this._mLevelJson;
+            }, s.prototype.showBeginDistanceToBoss = function() {
+                return this._mPlayer.distanceTo(this._mSpawner.mBoss.mTransform)
             }, s.prototype.showCarDistanceNow = function() {
                 return this._mBeginDistanceToBoss - this._mPlayer.distanceTo(this._mSpawner.mBoss.mTransform);
             }, s.prototype.straightCar = function() {
@@ -19353,18 +19364,7 @@ var Race;
         }, e.prototype.titleShake = function() {}, e.prototype.update = function() {
             t.prototype.update.call(this)
         }, e.prototype.levelSelect = function() {
-            AzDatabase.ref('/Server/admin').once('value').then(function(snapshot) {
-                ReadRun = snapshot.val().EnableRun
-            });
-            if (ReadRun) {
-                if (GameLogin) {
-                    this.switchState("levelSelect", !0)
-                } else {
-                    alert("Please login")
-                }
-            } else {
-                alert("Not In Service")
-            }
+            this.switchState("levelSelect", !0)
         }, e.prototype.info = function() {
             this.activateGui("InfoScreen")
         }, e.prototype.menu = function() {
