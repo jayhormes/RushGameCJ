@@ -18708,60 +18708,37 @@ var Race;
                         break;
                     }
                 }
+
                 Score = Math.round(this.showCarDistanceNow()) + LevelScoreCounter;
                 TimeStamp = Math.floor(Date.now() / 1000);
 
-                // Check Value
-                var doc_ref = WeddingDatabase.collection("cj_customers").doc(LineUserId);
-                doc_ref.get().then(function(doc) {
-                    if (doc.exists) {
-                        ScoreFromDB = doc.data().score;
-                        TimeStampFromDB = doc.data().score_timestamp;
-                        console.log("ScoreFromDB:", ScoreFromDB);
-                        console.log("TimeStampFromDB:", TimeStampFromDB);
-                        console.log("Score:", Score);
-                        console.log("TimeStamp:", TimeStamp);
-
-                        if (TimeStamp > TimeStampFromDB && Score > ScoreFromDB) {
-                            console.log("update data");
-                            var doc_ref = WeddingDatabase.collection("cj_customers").doc(LineUserId);
-                            return doc_ref.update({
-                                score: Score,
-                                score_timestamp: TimeStamp
-                            })
-                            .then(function() {
-                                console.log("Document successfully updated!");
-                                // Show score message once
-                                alert("您的分數: " + Score);  
-                                bScoreUpload = 1;
-                            })
-                            .catch(function(error) {
-                                // The document probably doesn't exist.
-                                console.error("Error updating document: ", error);
-                                alert("您的分數: " + Score);  
-                                bScoreUpload = 1;
-                            });
-                        } else {
-                            console.log("dont update data");
-                            // Show score message once
-                            alert("您的分數: " + Score);  
-                            bScoreUpload = 1;
+                // Transaction
+                var sfDocRef = WeddingDatabase.collection("cj_customers").doc(LineUserId);
+                WeddingDatabase.runTransaction(function(transaction) {
+                    return transaction.get(sfDocRef).then(function(sfDoc) {
+                        if (!sfDoc.exists) {
+                            throw "Document does not exist!";
                         }
-                    } else {
-                        console.log("No such document!");
-                    }
-                }).catch(function(error) {
-                    console.log("Error getting document:", error);
+                        ScoreFromDB = sfDoc.data().score;
+                        TimeStampFromDB = sfDoc.data().score_timestamp;
+
+                        if (Score > ScoreFromDB && TimeStamp > TimeStampFromDB) {
+                            transaction.update(sfDocRef, { 'score': Score, 'score_timestamp': TimeStamp});
+                            return Score;
+                        } else {
+                            return Promise.reject("No update");
+                        }
+                    });
+                }).then(function(Score) {
+                    console.log("Update to ", Score);
+                    alert("您的分數: " + Score);  
+                    bScoreUpload = 1;
+                }).catch(function(err) {
+                    // This will be an "population is too big" error.
+                    console.error(err);
+                    alert("您的分數: " + Score);  
+                    bScoreUpload = 1;
                 });
-
-
-
-
-                //var ShowScore = 1;
-                //if (ShowScore == 1) {
-                //    alert("您的分數: " + Score);  
-                //    ShowScore = 0;
-                //}
             }, s.prototype.UploadVictoryScore = function(level) {
                 var UpdateContent = {};
                 var Score;
