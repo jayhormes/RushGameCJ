@@ -18714,33 +18714,35 @@ var Race;
                 TimeStamp = Math.floor(Date.now() / 1000);
 
                 // Transaction
-                var sfDocRef = WeddingDatabase.collection("cj_customers").doc(LineUserId);
-                WeddingDatabase.runTransaction(function(transaction) {
-                    return transaction.get(sfDocRef).then(function(sfDoc) {
-                        if (!sfDoc.exists) {
-                            throw "Document does not exist!";
+                if (EnableDatabase == 1) {
+                    var sfDocRef = WeddingDatabase.collection("cj_customers").doc(LineUserId);
+                    WeddingDatabase.runTransaction(function(transaction) {
+                        return transaction.get(sfDocRef).then(function(sfDoc) {
+                            if (!sfDoc.exists) {
+                                throw "Document does not exist!";
+                            }
+                            ScoreFromDB = sfDoc.data().score;
+                            TimeStampFromDB = sfDoc.data().score_timestamp;
+    
+                            if (Score > ScoreFromDB && TimeStamp > TimeStampFromDB) {
+                                transaction.update(sfDocRef, { 'score': Score, 'score_timestamp': TimeStamp});
+                                return Score;
+                            } else {
+                                return Promise.reject("No update");
+                            }
+                        });
+                    }).then(function(Score) {
+                        console.log("Update to ", Score);
+                        bScoreUpload = 1;
+                        if (bShowScore == 0) {
+                            alert("個人新紀錄！您的分數: " + Score);  
+                            bShowScore = 1;
                         }
-                        ScoreFromDB = sfDoc.data().score;
-                        TimeStampFromDB = sfDoc.data().score_timestamp;
-
-                        if (Score > ScoreFromDB && TimeStamp > TimeStampFromDB) {
-                            transaction.update(sfDocRef, { 'score': Score, 'score_timestamp': TimeStamp});
-                            return Score;
-                        } else {
-                            return Promise.reject("No update");
-                        }
+                    }).catch(function(err) {
+                        // This will be an "population is too big" error.
+                        bScoreUpload = 1;
                     });
-                }).then(function(Score) {
-                    console.log("Update to ", Score);
-                    bScoreUpload = 1;
-                    if (bShowScore == 0) {
-                        alert("個人新紀錄！您的分數: " + Score);  
-                        bShowScore = 1;
-                    }
-                }).catch(function(err) {
-                    // This will be an "population is too big" error.
-                    bScoreUpload = 1;
-                });
+                }
             }, s.prototype.UploadVictoryScore = function(level) {
                 var LevelScoreCounter = 0;
                 var ScoreFromDB;
@@ -18759,33 +18761,35 @@ var Race;
                 TimeStamp = Math.floor(Date.now() / 1000);
 
                 // Transaction
-                var sfDocRef = WeddingDatabase.collection("cj_customers").doc(LineUserId);
-                WeddingDatabase.runTransaction(function(transaction) {
-                    return transaction.get(sfDocRef).then(function(sfDoc) {
-                        if (!sfDoc.exists) {
-                            throw "Document does not exist!";
+                if (EnableDatabase == 1) {
+                    var sfDocRef = WeddingDatabase.collection("cj_customers").doc(LineUserId);
+                    WeddingDatabase.runTransaction(function(transaction) {
+                        return transaction.get(sfDocRef).then(function(sfDoc) {
+                            if (!sfDoc.exists) {
+                                throw "Document does not exist!";
+                            }
+                            ScoreFromDB = sfDoc.data().score;
+                            TimeStampFromDB = sfDoc.data().score_timestamp;
+    
+                            if (Score > ScoreFromDB && TimeStamp > TimeStampFromDB) {
+                                transaction.update(sfDocRef, { 'score': Score, 'score_timestamp': TimeStamp});
+                                return Score;
+                            } else {
+                                return Promise.reject("No update");
+                            }
+                        });
+                    }).then(function(Score) {
+                        console.log("Update to ", Score);
+                        bScoreUpload = 1;
+                        if (bShowScore == 0) {
+                            alert("個人新紀錄！您的分數: " + Score);  
+                            bShowScore = 1;
                         }
-                        ScoreFromDB = sfDoc.data().score;
-                        TimeStampFromDB = sfDoc.data().score_timestamp;
-
-                        if (Score > ScoreFromDB && TimeStamp > TimeStampFromDB) {
-                            transaction.update(sfDocRef, { 'score': Score, 'score_timestamp': TimeStamp});
-                            return Score;
-                        } else {
-                            return Promise.reject("No update");
-                        }
+                    }).catch(function(err) {
+                        // This will be an "population is too big" error.
+                        bScoreUpload = 1;
                     });
-                }).then(function(Score) {
-                    console.log("Update to ", Score);
-                    bScoreUpload = 1;
-                    if (bShowScore == 0) {
-                        alert("個人新紀錄！您的分數: " + Score);  
-                        bShowScore = 1;
-                    }
-                }).catch(function(err) {
-                    // This will be an "population is too big" error.
-                    bScoreUpload = 1;
-                });
+                }
             }, s.prototype.removeHearthNumber = function(t) {
                 var e = this.getHearths();
                 Helper.exists(e) && e[t - 1].playAnimation(!1)
