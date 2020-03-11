@@ -18672,6 +18672,7 @@ var Race;
                         this._mScrollingBackground.scroll(1500), this._mPlayer.driveIn(400) === !1 && (this._mState = e.PLAYING, this.initDistanceToBoss());
                         break;
                     case e.PLAYING:
+                        bScoreUpload = 0;
                         this._mScrollingBackground.scroll(1500), this.driveAI(this._mLevelJson.CarSpeed), this._mPlayer.input(!0), this._mPlayer.correctPosition(600), this.isPlayerOverlappingCars() && (this._mGame.camera.flash(16777215, 100), this._mGame.camera.shake(.01), this.removeHearthNumber(this._mPlayer.mHealth), this._mPlayer.mHealth--, this._mPlayer.mHealth <= 0 ? (Dlib.Daudio.mInstance.playOnceTag("CarExplode"), this._mState = e.GAMEOVER, Dlib.Dcore.mInstance.createDobject(new t.Explosion(this._mPlayer.mCar.mTransform.mPosition)), this._mPlayer.outOffScreen(), this.straightCar(), this.mGameOver.dispatch()) : (Dlib.Daudio.mInstance.playOnceTag("CarBump"), this._mState = e.DYING, this.straightCar())), this.land() ? this._mSpawner.mBoss.mTransform.mPosition.x - this._mPlayer.mCar.mTransform.mPosition.x < 50 && (Dlib.Daudio.mInstance.playOnceTag("CarVictoryPass"), this._mState = e.VICTORY) : this._mSpawner.mBoss.mTransform.mPosition.y - this._mPlayer.mCar.mTransform.mPosition.y > 50 && (Dlib.Daudio.mInstance.playOnceTag("CarVictoryPass"), this._mState = e.VICTORY);
                         break;
                     case e.DYING:
@@ -18682,11 +18683,15 @@ var Race;
                         break;
                     case e.GAMEOVER:
                         this._mScrollingBackground.scroll(0), this.reverseAI(2 * this._mLevelJson.CarSpeed);
-                        this.UploadGameOverScore(this._mLevelJson.Level);
+                        if (bScoreUpload == 0) {
+                            this.UploadGameOverScore(this._mLevelJson.Level);
+                        }
                         break;
                     case e.VICTORY:
                         this._mScrollingBackground.scroll(1500), this.driveAI(this._mLevelJson.CarSpeed), this._mPlayer.driveVictory(800) === !1 && (this._mState = e.PAUSE, this.mVictory.dispatch());
-                        this.UploadVictoryScore(this._mLevelJson.Level);
+                        if (bScoreUpload == 0) {
+                            this.UploadVictoryScore(this._mLevelJson.Level);
+                        }
                         break;
                     case e.PAUSE:
                 }
@@ -18739,6 +18744,8 @@ var Race;
                 }
 
                 // Show score message once
+                alert("您的分數: " + Score);  
+                bScoreUpload = 1;
                 //var ShowScore = 1;
                 //if (ShowScore == 1) {
                 //    alert("您的分數: " + Score);  
