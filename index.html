@@ -25,13 +25,6 @@
 			}
 		];
 	</script>
-	<script>
-		var url = location.href;
-		if(url.indexOf('?')!=-1) {
-			var UrlContent = url.split('?');
-			console.log('id = '+UrlContent[1]);
-		}
-	</script>
 	<script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
 	
 	<link rel="stylesheet" type="text/css" href="./Rival_Rush_files/play.css">	
@@ -63,11 +56,30 @@
 			messagingSenderId: "1014855967079"
 		};
 		firebase.initializeApp(config);
-		var AzDatabase = firebase.database();
+		var WeddingDatabase = firebase.database();
 		var GameLogin = 1;
 		var PlayerName = "My friend";
 		var bScoreUpload = 0;	
 	</script>	
+	<script>
+		var url = location.href;
+		var LineUserId = "";
+		if(url.indexOf('?')!=-1) {
+			var UrlContent = url.split('?');
+			LineUserId = UrlContent[1];
+			console.log('id = '+UrlContent[1]);
+		}
+		//var ref_address = "/cj_customers/" + LineUserId;
+		//console.log('ref_address = '+ref_address);
+		//WeddingDatabase.ref(ref_address).once("value").then(function(snapshot) {
+		//	console.log('name = '+snapshot.val().name);
+			//var bCheckUser = snapshot.child("name").exists();
+			//if (bCheckUser) {
+			//	PlayerName = snapshot.child("name");
+			//	alert("welcome " + PlayerName + " !");
+			//}
+		//});		
+	</script>
 	<script>
 		function popupCallback(str){
 			AzDatabase.ref("/Score").once("value").then(function(snapshot) {

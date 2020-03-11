@@ -20,7 +20,7 @@
 					messagingSenderId: "1014855967079"
 				};
 				firebase.initializeApp(config);
-				var AzDatabase = firebase.database();
+				var WeddingDatabase = firebase.database();
 		</script>		
 	</head>
 	<body class="loading">
@@ -55,7 +55,7 @@
 			var RankString;
 			var RankCount = 10;
 			var RankWalker;
-			var scoresRef = AzDatabase.ref("Score");
+			var scoresRef = WeddingDatabase.ref("Score");
 				scoresRef.orderByValue().limitToLast(RankCount).on("value", function(snapshot) {
 					RankString = "";
 					RankWalker = RankCount;
