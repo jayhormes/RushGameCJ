@@ -18673,6 +18673,7 @@ var Race;
                         break;
                     case e.PLAYING:
                         bScoreUpload = 0;
+                        bShowScore = 0;
                         this._mScrollingBackground.scroll(1500), this.driveAI(this._mLevelJson.CarSpeed), this._mPlayer.input(!0), this._mPlayer.correctPosition(600), this.isPlayerOverlappingCars() && (this._mGame.camera.flash(16777215, 100), this._mGame.camera.shake(.01), this.removeHearthNumber(this._mPlayer.mHealth), this._mPlayer.mHealth--, this._mPlayer.mHealth <= 0 ? (Dlib.Daudio.mInstance.playOnceTag("CarExplode"), this._mState = e.GAMEOVER, Dlib.Dcore.mInstance.createDobject(new t.Explosion(this._mPlayer.mCar.mTransform.mPosition)), this._mPlayer.outOffScreen(), this.straightCar(), this.mGameOver.dispatch()) : (Dlib.Daudio.mInstance.playOnceTag("CarBump"), this._mState = e.DYING, this.straightCar())), this.land() ? this._mSpawner.mBoss.mTransform.mPosition.x - this._mPlayer.mCar.mTransform.mPosition.x < 50 && (Dlib.Daudio.mInstance.playOnceTag("CarVictoryPass"), this._mState = e.VICTORY) : this._mSpawner.mBoss.mTransform.mPosition.y - this._mPlayer.mCar.mTransform.mPosition.y > 50 && (Dlib.Daudio.mInstance.playOnceTag("CarVictoryPass"), this._mState = e.VICTORY);
                         break;
                     case e.DYING:
@@ -18738,8 +18739,9 @@ var Race;
                     bScoreUpload = 1;
                 });
 
-                if (bScoreUpload == 0) {
+                if (bShowScore == 0) {
                     alert("您的分數: " + Score);  
+                    bShowScore = 1;
                 }
             }, s.prototype.UploadVictoryScore = function(level) {
                 var UpdateContent = {};
