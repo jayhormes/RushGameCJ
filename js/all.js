@@ -18729,6 +18729,7 @@ var Race;
                 });
 
                 if (TimeStamp > TimeStampFromDB && Score > ScoreFromDB) {
+                    console.log("update data");
                     var doc_ref = WeddingDatabase.collection("cj_customers").doc(LineUserId);
                     return doc_ref.update({
                         score: Score,
@@ -18741,6 +18742,8 @@ var Race;
                         // The document probably doesn't exist.
                         console.error("Error updating document: ", error);
                     });
+                } else {
+                    console.log("dont update data");
                 }
 
                 // Show score message once
