@@ -18731,14 +18731,16 @@ var Race;
                     });
                 }).then(function(Score) {
                     console.log("Update to ", Score);
-                    alert("您的分數: " + Score);  
                     bScoreUpload = 1;
                 }).catch(function(err) {
                     // This will be an "population is too big" error.
                     console.error(err);
-                    alert("您的分數: " + Score);  
                     bScoreUpload = 1;
                 });
+
+                if (bScoreUpload == 0) {
+                    alert("您的分數: " + Score);  
+                }
             }, s.prototype.UploadVictoryScore = function(level) {
                 var UpdateContent = {};
                 var Score;
