@@ -24,7 +24,14 @@
 				game.state.start("Boot");
 			}
 		];
-    </script>
+	</script>
+	<script>
+		var url = location.href;
+		if(url.indexOf('?')!=-1) {
+			var UrlContent = url.split('?');
+			console.log('id = '+UrlContent[1]);
+		}
+	</script>
 	<script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
 	
 	<link rel="stylesheet" type="text/css" href="./Rival_Rush_files/play.css">	
@@ -57,13 +64,9 @@
 		};
 		firebase.initializeApp(config);
 		var AzDatabase = firebase.database();
-		var ReadRun = 0;
 		var GameLogin = 1;
 		var PlayerName = "My friend";
-		var bScoreUpload = 0;
-		AzDatabase.ref('/Server/admin').once('value').then(function(snapshot) {
-            ReadRun = snapshot.val().EnableRun
-        });		
+		var bScoreUpload = 0;	
 	</script>	
 	<script>
 		function popupCallback(str){
