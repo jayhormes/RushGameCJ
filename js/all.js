@@ -18721,6 +18721,32 @@ var Race;
                         console.log("TimeStampFromDB:", TimeStampFromDB);
                         console.log("Score:", Score);
                         console.log("TimeStamp:", TimeStamp);
+
+                        if (TimeStamp > TimeStampFromDB && Score > ScoreFromDB) {
+                            console.log("update data");
+                            var doc_ref = WeddingDatabase.collection("cj_customers").doc(LineUserId);
+                            return doc_ref.update({
+                                score: Score,
+                                score_timestamp: TimeStamp
+                            })
+                            .then(function() {
+                                console.log("Document successfully updated!");
+                                // Show score message once
+                                alert("您的分數: " + Score);  
+                                bScoreUpload = 1;
+                            })
+                            .catch(function(error) {
+                                // The document probably doesn't exist.
+                                console.error("Error updating document: ", error);
+                                alert("您的分數: " + Score);  
+                                bScoreUpload = 1;
+                            });
+                        } else {
+                            console.log("dont update data");
+                            // Show score message once
+                            alert("您的分數: " + Score);  
+                            bScoreUpload = 1;
+                        }
                     } else {
                         console.log("No such document!");
                     }
@@ -18728,27 +18754,9 @@ var Race;
                     console.log("Error getting document:", error);
                 });
 
-                if (TimeStamp > TimeStampFromDB && Score > ScoreFromDB) {
-                    console.log("update data");
-                    var doc_ref = WeddingDatabase.collection("cj_customers").doc(LineUserId);
-                    return doc_ref.update({
-                        score: Score,
-                        score_timestamp: TimeStamp
-                    })
-                    .then(function() {
-                        console.log("Document successfully updated!");
-                    })
-                    .catch(function(error) {
-                        // The document probably doesn't exist.
-                        console.error("Error updating document: ", error);
-                    });
-                } else {
-                    console.log("dont update data");
-                }
 
-                // Show score message once
-                alert("您的分數: " + Score);  
-                bScoreUpload = 1;
+
+
                 //var ShowScore = 1;
                 //if (ShowScore == 1) {
                 //    alert("您的分數: " + Score);  
