@@ -1,7 +1,8 @@
 @import 'libs/vars';
 @import 'libs/functions';
 @import 'libs/mixins';
-@import 'libs/skel';
+@import 'libs/vendor';
+@import 'libs/breakpoints';
 
 /*
 	Aerial by HTML5 UP
@@ -12,29 +13,23 @@
 /* Wrapper */
 
 	#wrapper {
-		opacity: 1;
+		opacity: 1 !important;
 	}
 
 /* Overlay */
 
 	#overlay {
-		opacity: 1;
+		opacity: 1 !important;
 	}
 
 /* Header */
 
 	#header {
-		opacity: 1;
+		opacity: 1 !important;
 
 		nav {
 			li {
-				opacity: 1;
+				opacity: 1 !important;
 			}
 		}
-	}
-
-/* Footer */
-
-	#footer {
-		background-image: url('images/ie/footer.svg');
 	}
