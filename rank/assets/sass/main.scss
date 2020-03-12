@@ -1,8 +1,10 @@
 @import 'libs/vars';
 @import 'libs/functions';
 @import 'libs/mixins';
+@import 'libs/vendor';
+@import 'libs/breakpoints';
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,900");
-@import url("font-awesome.min.css");
+@import url("fontawesome-all.min.css");
 
 /*
 	Aerial by HTML5 UP
@@ -10,19 +12,16 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
 
-	@import "libs/skel";
+// Breakpoints.
 
-	@include skel-breakpoints((
-		wide: '(max-width: 1680px)',
-		normal: '(max-width: 1280px)',
-		mobile: '(max-width: 736px)',
-		mobilep: '(max-width: 480px)'
+	@include breakpoints((
+		wide:      ( 1281px,  1680px ),
+		normal:    ( 737px,   1280px ),
+		mobile:    ( 481px,   736px  ),
+		mobilep:   ( null,    480px  )
 	));
 
-	@include skel-layout((
-		reset: 'full',
-		boxModel: 'border'
-	));
+// Mixins.
 
 	@mixin bg($width) {
 		@include keyframes('bg') {
@@ -42,7 +41,102 @@
 	$delay-nav-icons:		$delay-header + _duration(header) - 1s;
 	$delay-nav-icon:		0.25s;
 
+// Reset.
+// Based on meyerweb.com/eric/tools/css/reset (v2.0 | 20110126 | License: public domain)
+
+	html, body, div, span, applet, object,
+	iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
+	pre, a, abbr, acronym, address, big, cite,
+	code, del, dfn, em, img, ins, kbd, q, s, samp,
+	small, strike, strong, sub, sup, tt, var, b,
+	u, i, center, dl, dt, dd, ol, ul, li, fieldset,
+	form, label, legend, table, caption, tbody,
+	tfoot, thead, tr, th, td, article, aside,
+	canvas, details, embed, figure, figcaption,
+	footer, header, hgroup, menu, nav, output, ruby,
+	section, summary, time, mark, audio, video {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		font-size: 100%;
+		font: inherit;
+		vertical-align: baseline;
+	}
+
+	article, aside, details, figcaption, figure,
+	footer, header, hgroup, menu, nav, section {
+		display: block;
+	}
+
+	body {
+		line-height: 1;
+	}
+
+	ol, ul {
+		list-style:none;
+	}
+
+	blockquote,	q {
+		quotes: none;
+
+		&:before,
+		&:after {
+			content: '';
+			content: none;
+		}
+	}
+
+	table {
+		border-collapse: collapse;
+		border-spacing: 0;
+	}
+
+	body {
+		-webkit-text-size-adjust: none;
+	}
+
+	mark {
+		background-color: transparent;
+		color: inherit;
+	}
+
+	input::-moz-focus-inner {
+		border: 0;
+		padding: 0;
+	}
+
+	input, select, textarea {
+		-moz-appearance: none;
+		-webkit-appearance: none;
+		-ms-appearance: none;
+		appearance: none;
+	}
+
 /* Basic */
+
+	// Set box model to border-box.
+	// Based on css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice
+		html {
+			box-sizing: border-box;
+		}
+
+		*, *:before, *:after {
+			box-sizing: inherit;
+		}
+
+	body {
+		background: _palette(bg);
+		overflow: hidden;
+
+		// Stops initial animations until page loads.
+			&.is-preload {
+				*, *:before, *:after {
+					@include vendor('animation', 'none !important');
+					@include vendor('transition', 'none !important');
+				}
+			}
+
+	}
 
 	body, input, select, textarea {
 		color: _palette(fg);
@@ -51,17 +145,6 @@
 		font-weight: 300 !important;
 		letter-spacing: -0.025em;
 		line-height: 1.75em;
-	}
-
-	body {
-		background: _palette(bg);
-		overflow: hidden;
-
-		&.loading{
-			* {
-				@include vendor('animation', 'none !important');
-			}
-		}
 	}
 
 	a {
@@ -84,6 +167,18 @@
 
 		> .label {
 			display: none;
+		}
+
+		&.solid {
+			&:before {
+				font-weight: 900;
+			}
+		}
+
+		&.brands {
+			&:before {
+				font-family: 'Font Awesome 5 Brands';
+			}
 		}
 	}
 
@@ -288,7 +383,7 @@
 
 /* Wide */
 
-	@include breakpoint(wide) {
+	@include breakpoint('<=wide') {
 
 		/* Basic */
 
@@ -304,7 +399,7 @@
 
 /* Normal */
 
-	@include breakpoint(normal) {
+	@include breakpoint('<=normal') {
 
 		/* Basic */
 
@@ -320,7 +415,7 @@
 
 /* Mobile */
 
-	@include breakpoint(mobile) {
+	@include breakpoint('<=mobile') {
 
 		/* Basic */
 
@@ -366,7 +461,7 @@
 
 /* Mobile (Portrait) */
 
-	@include breakpoint(mobilep) {
+	@include breakpoint('<=mobilep') {
 
 		/* BG */
 

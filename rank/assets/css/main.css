@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,900");
-@import url("font-awesome.min.css");
+@import url("fontawesome-all.min.css");
 
 /*
 	Aerial by HTML5 UP
@@ -7,104 +7,79 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
 
-/* Reset */
+html, body, div, span, applet, object,
+iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
+pre, a, abbr, acronym, address, big, cite,
+code, del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var, b,
+u, i, center, dl, dt, dd, ol, ul, li, fieldset,
+form, label, legend, table, caption, tbody,
+tfoot, thead, tr, th, td, article, aside,
+canvas, details, embed, figure, figcaption,
+footer, header, hgroup, menu, nav, output, ruby,
+section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;}
 
-	html, body, div, span, applet, object, iframe, h1, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
-		margin: 0;
-		padding: 0;
-		border: 0;
-		font-size: 100%;
-		font: inherit;
-		vertical-align: baseline;
-	}
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;}
 
-	h2 {
-		margin: 0;
-		padding: 0;
-		border: 0;
-		font-size: 100%;
-		font: inherit;
-		color: rgb(255, 2, 2);
-		vertical-align: baseline;
-	}
-	
-	h3 {
-		margin: 0;
-		padding: 0;
-		border: 0;
-		font-size: 100%;
-		font: inherit;
-		color: rgb(243, 247, 8);
-		vertical-align: baseline;
-	}
-	
-	h4 {
-		margin: 0;
-		padding: 0;
-		border: 0;
-		font-size: 100%;
-		font: inherit;
-		color: rgba(184, 197, 199, 0.541);
-		vertical-align: baseline;
-	}	
+body {
+	line-height: 1;
+}
 
-	h5 {
-		margin: 0;
-		padding: 0;
-		border: 0;
-		font-size: 100%;
-		font: inherit;
-		color: rgb(182, 109, 0);
-		vertical-align: baseline;
-	}	
+ol, ul {
+	list-style: none;
+}
 
-	article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
-		display: block;
-	}
-
-	body {
-		line-height: 1;
-	}
-
-	ol, ul {
-		list-style: none;
-	}
-
-	blockquote, q {
-		quotes: none;
-	}
+blockquote, q {
+	quotes: none;
+}
 
 	blockquote:before, blockquote:after, q:before, q:after {
 		content: '';
 		content: none;
 	}
 
-	table {
-		border-collapse: collapse;
-		border-spacing: 0;
-	}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
 
-	body {
-		-webkit-text-size-adjust: none;
-	}
+body {
+	-webkit-text-size-adjust: none;
+}
 
-/* Box Model */
+mark {
+	background-color: transparent;
+	color: inherit;
+}
 
-	*, *:before, *:after {
-		-moz-box-sizing: border-box;
-		-webkit-box-sizing: border-box;
-		box-sizing: border-box;
-	}
+input::-moz-focus-inner {
+	border: 0;
+	padding: 0;
+}
+
+input, select, textarea {
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	-ms-appearance: none;
+	appearance: none;
+}
 
 /* Basic */
 
-	body, input, select, textarea {
-		color: #fff;
-		font-family: 'monospace', monospace;
-		font-size: 15pt;
-		font-weight: 300 !important;
-		letter-spacing: -0.025em;
-		line-height: 1.75em;
+	html {
+		box-sizing: border-box;
+	}
+
+	*, *:before, *:after {
+		box-sizing: inherit;
 	}
 
 	body {
@@ -112,12 +87,25 @@
 		overflow: hidden;
 	}
 
-		body.loading * {
+		body.is-preload *, body.is-preload *:before, body.is-preload *:after {
 			-moz-animation: none !important;
 			-webkit-animation: none !important;
 			-ms-animation: none !important;
 			animation: none !important;
+			-moz-transition: none !important;
+			-webkit-transition: none !important;
+			-ms-transition: none !important;
+			transition: none !important;
 		}
+
+	body, input, select, textarea {
+		color: #fff;
+		font-family: 'Source Sans Pro', sans-serif;
+		font-size: 15pt;
+		font-weight: 300 !important;
+		letter-spacing: -0.025em;
+		line-height: 1.75em;
+	}
 
 	a {
 		-moz-transition: border-color 0.2s ease-in-out;
@@ -144,14 +132,26 @@
 		.icon:before {
 			-moz-osx-font-smoothing: grayscale;
 			-webkit-font-smoothing: antialiased;
-			font-family: FontAwesome;
+			display: inline-block;
 			font-style: normal;
-			font-weight: normal;
+			font-variant: normal;
+			text-rendering: auto;
+			line-height: 1;
 			text-transform: none !important;
+			font-family: 'Font Awesome 5 Free';
+			font-weight: 400;
 		}
 
 		.icon > .label {
 			display: none;
+		}
+
+		.icon.solid:before {
+			font-weight: 900;
+		}
+
+		.icon.brands:before {
+			font-family: 'Font Awesome 5 Brands';
 		}
 
 /* Wrapper */
@@ -226,7 +226,7 @@
 		transform: translate3d(0,0,0);
 	/* Set your background with this */
 
-		background: #000000 url("images/bg.jpg") bottom left;
+		background: #348cb2 url("images/bg.jpg") bottom left;
 		background-repeat: repeat-x;
 		height: 100%;
 		left: 0;
@@ -559,6 +559,26 @@
 			letter-spacing: -0.035em;
 			line-height: 1em;
 		}
+		#header h2 {
+			font-size: 1.25em;
+			margin: 0.75em 0 0.25em 0;
+			opacity: 0.75;
+		}
+		#header h3 {
+			font-size: 1.25em;
+			margin: 0.75em 0 0.25em 0;
+			opacity: 0.75;
+		}
+		#header h4 {
+			font-size: 1.25em;
+			margin: 0.75em 0 0.25em 0;
+			opacity: 0.75;
+		}		
+		#header h5 {
+			font-size: 1.25em;
+			margin: 0.75em 0 0.25em 0;
+			opacity: 0.75;
+		}				
 
 		#header p {
 			font-size: 1.25em;
@@ -663,7 +683,7 @@
 				}
 
 			#header nav a {
-				-webkit-tap-highlight-color: transparent;
+				-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 				-webkit-touch-callout: none;
 				border: 0;
 				display: inline-block;
@@ -981,9 +1001,33 @@
 		#header h1 {
 			font-size: 2.5em;
 		}
+		#header h2 {
+			font-size: 1.25em;
+			color: #ff0000;
+			font-weight: 200;
+			font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;
+		}	
+		#header h3 {
+			font-size: 1.25em;
+			font-weight: 200;
+			font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;
+		}	
+		#header h4 {
+			font-size: 1.25em;
+			font-weight: 200;
+			font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;
+		}	
+		#header h5 {
+			font-size: 1.25em;
+			color: #000000;
+			font-weight: 700;
+			font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;
+		}						
 
 		#header p {
 			font-size: 1em;
+			font-weight: 200;
+			font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;
 		}
 
 		#header nav {

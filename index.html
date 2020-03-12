@@ -123,7 +123,12 @@
             });		
 		}
 		function openPopup(){
-			window.open('pop.html', "_system")
+			if (EnableDatabase == 1) {
+				var RankPageWithUserId = 'Rank/index.html?' + LineUserId;
+				window.open(RankPageWithUserId, "_system")
+			} else {
+				window.open('Rank/index.html', "_system")
+			}
 		}
 	</script>
 	<div id="DevoleProject">

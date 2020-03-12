@@ -1,29 +1,33 @@
 <!DOCTYPE HTML>
+<!--
+	Aerial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
 <html>
 	<head>
-		<title>極速海華 風雲榜</title>
+		<title>Rank of CJ Rush</title>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
-		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
-		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
-		<script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>	
-		<script>
-				// Initialize Firebase
-				var config = {
-					apiKey: "AIzaSyDz6zgdgvfifKU6qaablQcVbrE7_YvrP-E",
-					authDomain: "cj-rush.firebaseapp.com",
-					databaseURL: "https://cj-rush.firebaseio.com",
-					projectId: "cj-rush",
-					storageBucket: "cj-rush.appspot.com",
-					messagingSenderId: "1014855967079"
-				};
-				firebase.initializeApp(config);
-				var WeddingDatabase = firebase.database();
-		</script>		
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-firestore.js"></script>
+		<style>
+			.avatar {
+			  vertical-align: middle;
+			  width: 50px;
+			  height: 50px;
+			  border-radius: 50%;
+			}
+			.titlepic {
+			  vertical-align: middle;
+			  width: 50%;
+			  height: 50%;
+			}
+		</style>
 	</head>
-	<body class="loading">
+	<body class="is-preload">
 		<div id="wrapper">
 			<div id="bg"></div>
 			<div id="overlay"></div>
@@ -31,10 +35,20 @@
 
 				<!-- Header -->
 					<header id="header">
-						<h2><p id="CountDown"></p></h2>
-						<h1>Top 10</h1>
+						<!--<h1>Adam Jensen</h1>-->
+						<h1><img src="assets/css/images/title.png" alt="TitlePic" class="titlepic"></h1>
 						<p id="NewStringBox"></p>
+						<p id="UserStringBox"></p>
 						<nav>
+							<!--
+							<ul>
+								<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+								<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+								<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+								<li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
+								<li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+							</ul>
+							-->
 						</nav>
 					</header>
 
@@ -45,52 +59,99 @@
 
 			</div>
 		</div>
-		<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 		<script>
-			window.onload = function() { document.body.className = ''; }
+			var url = location.href;
+			var LineUserId = "";
+			var EnableShowUserScore = 0;
+			if(url.indexOf('?')!=-1) {
+				var UrlContent = url.split('?');
+				LineUserId = UrlContent[1];
+				EnableShowUserScore = 1;
+			}
+		</script>
+		<script>
+			// Initialize Firebase
+			firebase.initializeApp({
+				apiKey: "AIzaSyDz6zgdgvfifKU6qaablQcVbrE7_YvrP-E",
+				authDomain: "cj-rush.firebaseapp.com",
+				projectId: "cj-rush",
+			});
+	
+			var WeddingDatabase = firebase.firestore();	
+		</script>
+		<script>
+			window.onload = function() { document.body.classList.remove('is-preload'); }
 			window.ontouchmove = function() { return false; }
 			window.onorientationchange = function() { document.body.scrollTop = 0; }
 		</script>
 		<script>
 			var RankString;
-			var RankCount = 10;
-			var RankWalker;
-			var scoresRef = WeddingDatabase.ref("Score");
-				scoresRef.orderByValue().limitToLast(RankCount).on("value", function(snapshot) {
+			var AwardCounter;
+			WeddingDatabase.collection("cj_customers").where("score", ">", 0).orderBy("score", "desc").limit(5)
+				.onSnapshot(function(querySnapshot) {
 					RankString = "";
-					RankWalker = RankCount;
-					snapshot.forEach(function(data) {
-						if (RankWalker == 1) {
-							RankString = "<h3><span style=\"font-size:150%;\">No." + RankWalker + "&nbsp&nbsp&nbsp" + data.key + "&nbsp&nbsp&nbsp得分:" + data.val() + "</span></h3>" + RankString;
-						} else {
-							RankString = "<p>No." + RankWalker + "&nbsp&nbsp&nbsp" + data.key + "&nbsp&nbsp&nbsp得分:" + data.val() + "</p>" + RankString;
-						}
-						RankWalker = RankWalker - 1;
+					AwardCounter = 0;
+					querySnapshot.forEach(function(doc) {
+						RankString = RankString + "<"+AwardTag(AwardCounter)+">"+AwardIcon(AwardCounter)+"<img src=\""+doc.data().picture_url+"\" onerror=\"this.onerror='';this.src='assets/css/images/default-avatar.png'\" alt=\"\" class=\"avatar\">"+ "&nbsp&nbsp&nbsp" +doc.data().name+ "&nbsp&nbsp&nbsp"+doc.data().score+"</"+AwardTag(AwardCounter)+">";
+						AwardCounter++;
 					});
+					//console.log("RankList: ", RankList.join(", "));
+					if (RankString == "") {
+						RankString = "<h3><span style=\"font-size:150%;\">尚未出現挑戰者。快來玩！</span></h3>";
+					}
 					ChangeString();
 				});
-		</script>	
+		</script>
 		<script>
 			function ChangeString(){
 				var NewStringValue=RankString;
 				document.getElementById("NewStringBox").innerHTML=NewStringValue;
 			}
+		</script>	
+		<script>
+			function ChangeUserString(){
+				var UserStringValue=UserString;
+				document.getElementById("UserStringBox").innerHTML=UserStringValue;
+			}
 		</script>
 		<script>
-			var time = 123000;//倒數秒數
-			!function MyCounter(){
-				if(time<=0){
-					//倒數完成
-					var NewStringValue= "Time is up";
-					document.getElementById("CountDown").innerHTML=NewStringValue;
-				} else{
-					console.log((time/1000) + " sec...");
-					var NewStringValue= Math.floor(time/1000/60) + " 分" + (time/1000%60) + " 秒";
-					document.getElementById("CountDown").innerHTML=NewStringValue;
-					setTimeout(MyCounter, 1000);
+			var UserString;
+			if (EnableShowUserScore == 1) {
+				WeddingDatabase.collection("cj_customers").doc(LineUserId)
+					.onSnapshot(function(doc) {
+						UserScore = doc.data().score;
+						UserString = "<h5>" + "Your Score: "+ UserScore+ "</h5>";
+						ChangeUserString();
+					});		
+			}
+		</script>				
+		<script>
+			function AwardIcon(nCounter){
+				if (nCounter == 0) {
+					return "🥇";
 				}
-				time-=1000; 
-			}();
-		</script>		
+				if (nCounter == 1) {
+					return "🥈";
+				}
+				if (nCounter == 2) {
+					return "🥉";
+				}
+				return "";
+			}
+		</script>	
+		<script>
+			function AwardTag(nCounter){
+				if (nCounter == 0) {
+					return "h2";
+				}
+				if (nCounter == 1) {
+					return "h3";
+				}
+				if (nCounter == 2) {
+					return "h4";
+				}
+				return "p";
+			}
+		</script>
 	</body>
 </html>
