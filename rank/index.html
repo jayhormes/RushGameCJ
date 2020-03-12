@@ -92,7 +92,7 @@
 					RankString = "";
 					AwardCounter = 0;
 					querySnapshot.forEach(function(doc) {
-						RankString = RankString + "<"+AwardTag(AwardCounter)+">"+AwardIcon(AwardCounter)+"<img src=\""+doc.data().picture_url+"\" alt=\"Avatar\" class=\"avatar\">"+ "&nbsp&nbsp&nbsp" +doc.data().name+ "&nbsp&nbsp&nbsp"+doc.data().score+"</"+AwardTag(AwardCounter)+">";
+						RankString = RankString + "<"+AwardTag(AwardCounter)+">"+AwardIcon(AwardCounter)+"<img src=\""+doc.data().picture_url+"\" onerror=\"this.onerror='';this.src='assets/css/images/default-avatar.png'\" alt=\"\" class=\"avatar\">"+ "&nbsp&nbsp&nbsp" +doc.data().name+ "&nbsp&nbsp&nbsp"+doc.data().score+"</"+AwardTag(AwardCounter)+">";
 						AwardCounter++;
 					});
 					//console.log("RankList: ", RankList.join(", "));
