@@ -226,7 +226,7 @@ input, select, textarea {
 		transform: translate3d(0,0,0);
 	/* Set your background with this */
 
-		background: #348cb2 url("images/bg.jpg") bottom left;
+		background: #FDFEF9 url("images/bg.jpg") bottom left;
 		background-repeat: repeat-x;
 		height: 100%;
 		left: 0;
@@ -563,27 +563,42 @@ input, select, textarea {
 			font-size: 1.25em;
 			margin: 0.75em 0 0.25em 0;
 			opacity: 0.75;
+			color: #FF2D2D;
+			font-weight: 700;
+			font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;
 		}
 		#header h3 {
 			font-size: 1.25em;
 			margin: 0.75em 0 0.25em 0;
 			opacity: 0.75;
+			color: #0072E3;
+			font-weight: 700;
+			font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;			
 		}
 		#header h4 {
 			font-size: 1.25em;
 			margin: 0.75em 0 0.25em 0;
 			opacity: 0.75;
+			color: #00A600;
+			font-weight: 700;
+			font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;			
 		}		
 		#header h5 {
 			font-size: 1.25em;
 			margin: 0.75em 0 0.25em 0;
 			opacity: 0.75;
+			color: #000000;
+			font-weight: 700;
+			font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;			
 		}				
 
 		#header p {
 			font-size: 1.25em;
 			margin: 0.75em 0 0.25em 0;
 			opacity: 0.75;
+			color: #6C3365;
+			font-weight: 700;
+			font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;				
 		}
 
 		#header nav {
@@ -1003,18 +1018,20 @@ input, select, textarea {
 		}
 		#header h2 {
 			font-size: 1.25em;
-			color: #ff0000;
-			font-weight: 200;
+			color: #FF2D2D;
+			font-weight: 500;
 			font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;
 		}	
 		#header h3 {
 			font-size: 1.25em;
-			font-weight: 200;
+			color: #0072E3;
+			font-weight: 500;
 			font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;
 		}	
 		#header h4 {
 			font-size: 1.25em;
-			font-weight: 200;
+			color: #00A600;
+			font-weight: 500;
 			font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;
 		}	
 		#header h5 {
@@ -1025,8 +1042,9 @@ input, select, textarea {
 		}						
 
 		#header p {
-			font-size: 1em;
-			font-weight: 200;
+			font-size: 1.25em;
+			color: #6C3365;
+			font-weight: 500;
 			font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;
 		}
 
